@@ -1,7 +1,7 @@
 
 import React, { Component } from "react";
 import firebase from './FireBase'
-import {GoTrashcan} from 'react-icons/go'
+import {GoListUnordered, GoTrashcan} from 'react-icons/go'
 import { navigate } from "@reach/router";
 import { FaLink } from "react-icons/fa";
 
@@ -36,6 +36,11 @@ deleteMeeting = (e, whichMeeting) => {
                     title = "Check In"
                     onClick = { ()=> navigate(`/checkin/${this.props.userID}/${item.meetingID}`) }>
                         <FaLink />
+                    </button>
+                    <button className='btn btn-sm btn-outline-secondary'
+                    title = "Attendees List"
+                    onClick = { ()=> navigate(`/attendees/${this.props.userID}/${item.meetingID}`) }>
+                        <GoListUnordered />
                     </button>
                 </section>
 

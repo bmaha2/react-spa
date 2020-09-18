@@ -1,36 +1,34 @@
 import React, { Component } from "react";
 import firebase from "./FireBase";
+import AttendeesList from "./AttendeesList";
 
 class Attendees extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
-      displayAttendes: [],
+      displayAttendees: [],
     };
   }
 
   componentDidMount() {
     const ref = firebase
       .database()
-      .ref(`meetings/${this.props.UserID}/${this.props.meetingID}/attendees`);
+      .ref(`meetings/${this.props.userID}/${this.props.meetingID}/attendees`);
 
-      ref.on('value', snapshot => {
-          let attendees = snapshot.val();
-          let attendeesList = [];
-          for (let item in attendees) {
-              attendeesList.push({
-                attendeeID: item,
-                attendeeName: attendees[item].attendeeName,
-                attendeeEmail: attendees[item].attendeeEmail
-
-              });
-              this.setState({
-                  displayAttendes: attendeesList
-              })
-              
-
-          }
-      })
+    ref.on("value", (snapshot) => {
+      let attendees = snapshot.val();
+      let attendeesList = [];
+      for (let item in attendees) {
+        attendeesList.push({
+          attendeeID: item,
+          attendeeName: attendees[item].attendeeName,
+          attendeeEmail: attendees[item].attendeeEmail,
+        });
+      }
+      this.setState({
+        displayAttendees: attendeesList,
+      });
+    });
   }
   render() {
     return (
@@ -40,7 +38,12 @@ class Attendees extends Component {
             <h1 className="font-weight-light text-center">Attendees</h1>
           </div>
         </div>
-        List Goes Here
+        <AttendeesList
+          userID={this.props.userID}
+          meetingID = {this.props.meetingID}
+          adminUser = {this.props.adminUser}
+          attendees={this.state.displayAttendees}
+        />
       </div>
     );
   }
